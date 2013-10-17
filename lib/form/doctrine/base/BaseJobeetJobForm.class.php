@@ -58,9 +58,9 @@ abstract class BaseJobeetJobForm extends BaseFormDoctrine
       new sfValidatorDoctrineUnique(array('model' => 'JobeetJob', 'column' => array('token')))
     );
 
-    $this->widgetSchema->setNameFormat('jobeet_job[%s]');
+	$this->widgetSchema->setNameFormat('jobeet_job[%s]');
 
-    $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+	$this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
 
     $this->setupInheritance();
 

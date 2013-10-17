@@ -7,6 +7,21 @@
  */
 class JobeetJobTable extends Doctrine_Table
 {
+
+
+
+ static public $types = array(
+    'full-time' => 'Full time',
+    'part-time' => 'Part time',
+    'freelance' => 'Freelance',
+  );
+ 
+  public function getTypes()
+  {
+    return self::$types;
+  }
+ 
+ 
     /**
      * Returns an instance of this class.
      *
@@ -27,7 +42,9 @@ public function getActiveJobs(Doctrine_Query $q = null)
   {
     $q = $this->createQuery('c')
       ->leftJoin('c.JobeetJobs j')
-      ->where('j.expires_at > ?', date('Y-m-d H:i:s', time()));
+      ->where('j.expires_at > ?', date('Y-m-d H:i:s', time()))
+	  ->andWhere($alias . '.is_activated = ?', 1);
+
  
     return $q->execute();
   }  
@@ -59,7 +76,28 @@ public function getActiveJobs(Doctrine_Query $q = null)
     $alias = $q->getRootAlias();
  
     $q->andWhere($alias . '.expires_at > ?', date('Y-m-d H:i:s', time()))
+      ->andWhere($alias . '.is_activated = ?', 1)
       ->addOrderBy($alias . '.created_at DESC');
+
+    return $q;
+  }
+  
+  
+  public function cleanup($days)
+{
+  $q = $this->createQuery('a')
+    ->delete()
+    ->andWhere('a.is_activated = ?', 0)
+    ->andWhere('a.created_at < ?', date('Y-m-d', time() - 86400 * $days));
+ 
+  return $q->execute();
+}
+
+ public function retrieveBackendJobList(Doctrine_Query $q)
+  {
+    $rootAlias = $q->getRootAlias();
+ 
+    $q->leftJoin($rootAlias . '.JobeetCategory c');
  
     return $q;
   }
