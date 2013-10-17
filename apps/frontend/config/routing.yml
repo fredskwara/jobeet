@@ -23,7 +23,15 @@ job_show_user:
   param:   { module: job, action: show }
   requirements:
     id: \d+
-    sf_method: [get]  
+    sf_method: [get]
+
+category:
+  url:      /category/:slug
+  class:    sfDoctrineRoute
+  param:    { module: category, action: show }
+  options:  { model: JobeetCategory, type: object }
+
+  
 default_index:
   url:   /:module
   param: { action: index }
