@@ -182,7 +182,7 @@ abstract class BaseCategoryGeneratorConfiguration extends sfModelGeneratorConfig
 
   public function hasFilterForm()
   {
-    return true;
+    return false;
   }
 
   /**

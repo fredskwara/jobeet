@@ -20,9 +20,10 @@ class jobActions extends sfActions
   {
 #    $this->job = Doctrine_Core::getTable('jobeetjob')->find(array($request->getParameter('id')));
     $this->job = $this->getRoute()->getObject();
- # routing ja gera o 4040 
-# $this->forward404Unless($this->job);
-  }
+
+    $this->getUser()->addJobToHistory($this->job);
+
+}
 
   public function executeNew(sfWebRequest $request)
   {

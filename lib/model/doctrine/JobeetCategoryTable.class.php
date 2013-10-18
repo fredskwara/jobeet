@@ -25,5 +25,10 @@ class JobeetCategoryTable extends Doctrine_Table
  
     return $q->execute();
   }
-	
+
+  public function getLatestPost()
+  {
+    return $this->getActiveJobs(1)->getFirst();
+  }
+  
 	}
